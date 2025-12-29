@@ -4,7 +4,7 @@ import os
 from io import BytesIO
 from PIL import Image, ExifTags
 from botocore.exceptions import ClientError
-from datetime import 
+from datetime import datetime
 from pathlib import Path
 
 s3 = boto3.client("s3")
