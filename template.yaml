@@ -69,7 +69,7 @@ Resources:
             BatchSize: 10
 
 Outputs:
-  ImagesBucketName:
+  BucketName:
     Description: S3 bucket for images
     Value: !Ref ImagesBucket
 
@@ -80,7 +80,7 @@ Outputs:
   IngestFunctionName:
     Description: Ingest lambda Function
     Value: !Ref IngestFunction
-    
+
   MetadataExtractorFunctionName:
     Description: Metadata extraction Lambda
     Value: !Ref MetadataExtractionFunction
