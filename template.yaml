@@ -51,8 +51,8 @@ Resources:
   MetadataExtractionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/metadata_lambda
-      Handler: metadata_extraction.lambda_handler
+      CodeUri: src/metadata_lambda/
+      Handler: metadata.lambda_handler
       Environment:
         Variables:
           OUTPUT_PREFIX: metadata/
