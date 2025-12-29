@@ -4,7 +4,8 @@ import os
 from io import BytesIO
 from PIL import Image, ExifTags
 from botocore.exceptions import ClientError
-from datetime import datetime
+from datetime import 
+from pathlib import Path
 
 s3 = boto3.client("s3")
 OUTPUT_PREFIX = os.environ["OUTPUT_PREFIX"]
@@ -16,7 +17,7 @@ def lambda_handler(event, context):
             bucket = message["bucket"]
             key = message["key"]
             etag = message.get("etag")
-            filename = os.path.basename(key)
+            filename = Path(key).name
 
             metadata_key = (f'{OUTPUT_PREFIX}/{filename}.json')
 
@@ -43,7 +44,6 @@ def lambda_handler(event, context):
                 "bucket": bucket,
                 "key": key,
                 "etag": etag,
-                "filename": filename,
                 "format": image.format,
                 "width": image.width,
                 "height": image.height,
