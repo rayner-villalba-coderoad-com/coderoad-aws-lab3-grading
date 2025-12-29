@@ -41,13 +41,13 @@ def lambda_handler(event, context):
             # Extract metadata
             # -------------------------------
             metadata = {
-                "bucket": bucket,
-                "key": key,
+                "source_bucket": bucket,
+                "source_key": key,
                 "etag": etag,
                 "format": image.format,
                 "width": image.width,
                 "height": image.height,
-                "file_size": file_size,
+                "file_size_bytes": file_size,
                 "exif": extract_exif(image),
                 "processed_at": datetime.utcnow().isoformat()
             }
