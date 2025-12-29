@@ -46,11 +46,5 @@ Resources:
               S3Key:
                 Rules:
                   - Name: prefix
-                    Value: incoming/
-                  - Name: suffix
-                    Value: .png
-                  - Name: suffix
-                    Value: .jpg
-                  - Name: suffix
-                    Value: .jpeg     
+                    Value: incoming/ 
                   
