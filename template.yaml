@@ -14,3 +14,43 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub coderoad-images-${AWS::AccountId}-${AWS::Region}
+  
+  CoderoadS3EventsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: coderoad-s3-events-queue    
+
+  IngestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: ingest.lambda_handler
+      Environment:
+        Variables:
+          INPUT_PREFIX: incoming/
+          QUEUE_URL: !Ref CoderoadS3EventsQueue 
+      Policies:
+        - S3CrudPolicy:
+            BucketName: !Sub coderoad-images-${AWS::AccountId}-${AWS::Region}
+        - SQSSendMessagePolicy:
+            QueueName: coderoad-s3-events-queue
+      Timeout: 10
+             
+      Events:
+        ImageUpload:
+          Type: S3
+          Properties:
+            Bucket: !Ref ImagesBucket
+            Events: s3:ObjectCreated:*
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: prefix
+                    Value: incoming/
+                  - Name: suffix
+                    Value: .png
+                  - Name: suffix
+                    Value: .jpg
+                  - Name: suffix
+                    Value: .jpeg     
+                  
