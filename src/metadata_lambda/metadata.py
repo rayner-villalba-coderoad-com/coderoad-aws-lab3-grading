@@ -16,8 +16,9 @@ def lambda_handler(event, context):
             bucket = message["bucket"]
             key = message["key"]
             etag = message.get("etag")
+            filename = os.path.basename(key)
 
-            metadata_key = (f'{OUTPUT_PREFIX}/{key}.json')
+            metadata_key = (f'{OUTPUT_PREFIX}/{filename}.json')
 
             # -------------------------------
             # Idempotency check
@@ -42,6 +43,7 @@ def lambda_handler(event, context):
                 "bucket": bucket,
                 "key": key,
                 "etag": etag,
+                "filename": filename,
                 "format": image.format,
                 "width": image.width,
                 "height": image.height,
