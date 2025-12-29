@@ -2,7 +2,7 @@ import json
 import boto3
 import os
 from io import BytesIO
-from PIL import Image, ExifTags
+from PIL import Image, ExifTags, TiffImagePlugin
 from botocore.exceptions import ClientError
 from datetime import datetime
 from pathlib import Path
@@ -85,10 +85,24 @@ def extract_exif(image):
         if not exif_raw:
             return None
 
-        return {
-            ExifTags.TAGS.get(tag, tag): value
-            for tag, value in exif_raw.items()
-        }
+        exif_clean = {}
+        for tag, value in exif_raw.items():
+            tag_name = ExifTags.TAGS.get(tag, tag)
+
+            # Convert IFDRational to float
+            if isinstance(value, TiffImagePlugin.IFDRational):
+                value = float(value)
+
+            # Optionally, convert bytes to str
+            if isinstance(value, bytes):
+                try:
+                    value = value.decode(errors="ignore")
+                except Exception:
+                    value = str(value)
+
+            exif_clean[tag_name] = value
+
+        return exif_clean
+
     except Exception:
         return None
-
