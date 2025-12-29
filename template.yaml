@@ -68,5 +68,21 @@ Resources:
             Queue: !GetAtt CoderoadS3EventsQueue.Arn
             BatchSize: 10
 
+Outputs:
+  ImagesBucketName:
+    Description: S3 bucket for images
+    Value: !Ref ImagesBucket
+
+  S3EventsQueueUrl:
+    Description: Queue URL for S3 events
+    Value: !Ref CoderoadS3EventsQueue
+
+  IngestFunctionName:
+    Description: Ingest lambda Function
+    Value: !Ref IngestFunction
+    
+  MetadataExtractorFunctionName:
+    Description: Metadata extraction Lambda
+    Value: !Ref MetadataExtractionFunction
 
                   
