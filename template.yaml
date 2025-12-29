@@ -23,7 +23,7 @@ Resources:
   IngestFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
+      CodeUri: src/ingest_lambda/
       Handler: ingest.lambda_handler
       Environment:
         Variables:
@@ -51,7 +51,7 @@ Resources:
   MetadataExtractionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
+      CodeUri: src/metadata_lambda
       Handler: metadata_extraction.lambda_handler
       Environment:
         Variables:
