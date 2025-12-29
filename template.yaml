@@ -55,7 +55,7 @@ Resources:
       Handler: metadata.lambda_handler
       Environment:
         Variables:
-          OUTPUT_PREFIX: metadata/
+          OUTPUT_PREFIX: metadata
       Policies:
         - SQSPollerPolicy:
             QueueName: coderoad-s3-events-queue
