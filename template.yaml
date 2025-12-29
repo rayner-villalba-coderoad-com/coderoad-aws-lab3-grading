@@ -46,5 +46,27 @@ Resources:
               S3Key:
                 Rules:
                   - Name: prefix
-                    Value: incoming/ 
+                    Value: incoming/
+  
+  MetadataExtractionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: metadata_extraction.lambda_handler
+      Environment:
+        Variables:
+          OUTPUT_PREFIX: metadata/
+      Policies:
+        - SQSPollerPolicy:
+            QueueName: coderoad-s3-events-queue
+        - S3CrudPolicy:
+            BucketName: !Sub coderoad-images-${AWS::AccountId}-${AWS::Region}
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt CoderoadS3EventsQueue.Arn
+            BatchSize: 10
+
+
                   
